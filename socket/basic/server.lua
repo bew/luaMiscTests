@@ -1,3 +1,5 @@
+#!/usr/bin/env lua
+
 -----------------------------------------------------------------------------
 -- TCP sample: Little program to send text lines to a given host/port
 -- LuaSocket sample files
@@ -11,7 +13,7 @@ host = host or "localhost"
 port = port or 1234
 if arg then
 	host = arg[1] or host
-	port = arg[2] or port
+	port = tonumber(arg[2]) or port
 end
 
 print("Attempting connection to host '" ..host.. "' and port " ..port.. "...")
@@ -19,6 +21,10 @@ print("Attempting connection to host '" ..host.. "' and port " ..port.. "...")
 local tcp = assert(Socket.tcp())
 assert(tcp:bind(host, port))
 assert(tcp:listen(10))
+
+if port == 0 then
+	_, port = tcp:getsockname()
+end
 
 print("Server is ready, client can connect to " .. host .. ":" .. port)
 
@@ -53,7 +59,7 @@ while true do
 	end
 	deadClients = nil
 
-	Socket.sleep(1) -- wait 1 sec
+	Socket.sleep(0.5) -- wait 1/2 sec
 
 	counter = counter + 1
 

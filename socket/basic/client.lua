@@ -1,3 +1,5 @@
+#!/usr/bin/env lua
+
 local Socket = require"socket"
 local MsgPack = require"MessagePack"
 
