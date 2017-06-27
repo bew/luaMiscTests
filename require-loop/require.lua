@@ -24,7 +24,7 @@ local packageList = {
 
 local stackOfPackageNames = {}
 
-function registerPackage(package)
+local function registerPackage(package)
 	local currentPackage = #stackOfPackageNames ~= 0 and table.remove(stackOfPackageNames) or nil
 	print("registering package, current required package is " .. tostring(currentPackage))
 	if not currentPackage then
@@ -56,8 +56,9 @@ local function doRequire(packageName, ...)
 	return resultRequire
 end
 
+-- luacheck: ignore require
 require = setmetatable({}, {
-	__call = function(self, ...)
+	__call = function(_, ...)
 		return doRequire(...)
 	end,
 })
